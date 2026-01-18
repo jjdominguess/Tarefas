@@ -9,11 +9,26 @@ import UIKit
 
 class EntryViewController: UIViewController {
     
+    private let viewModel: EntryViewViewModel
+    private let coordinator: AppCoordinator
+    
     private lazy var entryView: EntryView = {
         let view = EntryView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
         return view
     }()
+    
+    //Para inicializar a EntryController precisa de uma ViewModel
+    init(viewModel: EntryViewViewModel, coordinator: AppCoordinator) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +39,16 @@ class EntryViewController: UIViewController {
         view.addSubview(entryView)
         
         NSLayoutConstraint.activate([
-            entryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            entryView.topAnchor.constraint(equalTo: view.topAnchor),
             entryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             entryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            entryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            entryView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+}
+
+extension EntryViewController: EntryViewDelegate {
+    func didTapEnter() {
+        coordinator.navigateToHome()
+    }
 }

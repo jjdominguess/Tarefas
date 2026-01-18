@@ -7,13 +7,18 @@
 
 import UIKit
 
+protocol EntryViewDelegate: AnyObject {
+    func didTapEnter()
+}
+
 class EntryView: UIView {
    
     private var customBlueColor = UIColor(red: 1.00/255.00, green: 144.00/255.00, blue: 189.00/255.00, alpha: 1.00)
     private var tickImage = UIImage(named: "tick.jpeg")
-  
+    weak var delegate: EntryViewDelegate?
+    
     private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
+        let stack = UIStackView(arrangedSubviews: [titleView, image, enterButton, space])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.backgroundColor = .systemBackground
         stack.alignment = .center
@@ -26,6 +31,7 @@ class EntryView: UIView {
     
     private lazy var titleView: UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Controlador de\n Tarefas"
         lbl.textColor = .black
         lbl.numberOfLines = 0
@@ -55,8 +61,16 @@ class EntryView: UIView {
         btn.widthAnchor.constraint(equalToConstant: 200).isActive = true
         btn.setTitle("Entrar", for: .normal)
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(<#T##@objc method#>), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(didTapEnter), for: .touchUpInside)
         return btn
+    }()
+    
+    //MARK: -- Entender se dá para dar um espaço só na parte de baixo do botão Entrar
+    private lazy var space: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.text = " "
+        return lbl
     }()
     
     override init(frame: CGRect) {
@@ -71,17 +85,18 @@ class EntryView: UIView {
     func configLayout() {
      
         addSubview(stackView)
-        stackView.addArrangedSubview(titleView)
-        stackView.addArrangedSubview(image)
-        stackView.addArrangedSubview(enterButton)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            
+                        
         ])
     }
     
+    @objc func didTapEnter() {
+        delegate?.didTapEnter()
+    }
 }
