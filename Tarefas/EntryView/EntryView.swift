@@ -12,7 +12,7 @@ protocol EntryViewDelegate: AnyObject {
 }
 
 class EntryView: UIView {
-   
+    
     private var customBlueColor = UIColor(red: 1.00/255.00, green: 144.00/255.00, blue: 189.00/255.00, alpha: 1.00)
     private var tickImage = UIImage(named: "tick.jpeg")
     weak var delegate: EntryViewDelegate?
@@ -25,7 +25,6 @@ class EntryView: UIView {
         stack.distribution = .fill
         stack.axis = .vertical
         stack.spacing = 20
-        
         return stack
     }()
     
@@ -37,7 +36,6 @@ class EntryView: UIView {
         lbl.numberOfLines = 0
         lbl.textAlignment = .center
         lbl.font = .boldSystemFont(ofSize: 40)
-        
         return lbl
     }()
     
@@ -83,16 +81,14 @@ class EntryView: UIView {
     }
     
     func configLayout() {
-     
+        
         addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                        
         ])
     }
     

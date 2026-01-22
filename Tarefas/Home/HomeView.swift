@@ -7,33 +7,35 @@
 
 import UIKit
 
+protocol HomeViewDelegate: AnyObject {
+    func presentModalView()
+}
+
 class HomeView: UIView {
-    private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [titleLabel])
+    
+    private lazy var mainView: UIView = {
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        view.backgroundColor = .systemBackground
-        view.spacing = 12
-        view.distribution = .fill
+        view.backgroundColor = .red
         return view
     }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle).withSize(20)
-        label.text = "Tarefas diárias"
-        return label
+
+    private lazy var btn: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Entrar", for: .normal)
+        btn.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = .systemBlue
+        btn.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        btn.addTarget(self, action: #selector(aprint), for: .touchUpInside)
+        return btn
     }()
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
         setupLayout()
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -41,13 +43,21 @@ class HomeView: UIView {
     }
     
     func setupLayout() {
-        addSubview(stackView)
-        
+        backgroundColor = .systemBackground
+        addSubview(mainView)
+        mainView.addSubview(btn)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            mainView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mainView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            mainView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            btn.centerXAnchor.constraint(equalTo: centerXAnchor),
+            btn.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
+    }
+    
+    @objc func aprint() {
+        print("AQUI!")
     }
 }
