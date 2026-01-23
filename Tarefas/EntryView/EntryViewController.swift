@@ -9,8 +9,7 @@ import UIKit
 
 class EntryViewController: UIViewController {
     
-    private let viewModel: EntryViewViewModel
-    private let coordinator: AppCoordinator
+    private let viewModel: EntryViewModel?
     
     private lazy var entryView: EntryView = {
         let view = EntryView()
@@ -20,9 +19,8 @@ class EntryViewController: UIViewController {
     }()
     
     //Para inicializar a EntryController precisa de uma ViewModel
-    init(viewModel: EntryViewViewModel, coordinator: AppCoordinator) {
+    init(viewModel: EntryViewModel) {
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,13 +40,13 @@ class EntryViewController: UIViewController {
             entryView.topAnchor.constraint(equalTo: view.topAnchor),
             entryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             entryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            entryView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            entryView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 }
 
 extension EntryViewController: EntryViewDelegate {
     func didTapEnter() {
-        coordinator.navigateToHome()
+        viewModel?.didTapEnter()
     }
 }

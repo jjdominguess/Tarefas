@@ -19,14 +19,27 @@ final class AppCoordinator {
     }
     
     func start() {
-        let viewModel = EntryViewViewModel()
-        let vc = EntryViewController(viewModel: viewModel, coordinator: self)
-        
+        let viewModel = EntryViewModel()
+        viewModel.coordinator = self
+        let vc = EntryViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     
     func navigateToHome() {
-        let homeVC = HomeViewController()
+        let viewModel = HomeViewModel()
+        viewModel.coordinator = self
+        let homeVC = HomeViewController(viewModel: viewModel)
         navigationController.pushViewController(homeVC, animated: true)
+    }
+    
+    func openModalView() {
+        let modalView = ModalView()
+        modalView.modalPresentationStyle = .pageSheet
+        if let sheet = modalView.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        navigationController.present(modalView, animated: true)
     }
 }
