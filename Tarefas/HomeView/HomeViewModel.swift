@@ -13,7 +13,5 @@ class HomeViewModel {
     
     func callModalView() {
         coordinator?.openModalView()
-
     }
-    
 }

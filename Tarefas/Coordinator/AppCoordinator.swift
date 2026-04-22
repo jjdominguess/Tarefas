@@ -33,10 +33,10 @@ final class AppCoordinator {
     }
     
     func openModalView() {
-        let modalView = ModalView()
+        let modalView = ModalViewController()
         modalView.modalPresentationStyle = .pageSheet
         if let sheet = modalView.sheetPresentationController {
-            sheet.detents = [.large()]
+            sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = true
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }

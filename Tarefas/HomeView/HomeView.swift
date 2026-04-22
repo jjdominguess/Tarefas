@@ -8,39 +8,37 @@
 import UIKit
 
 class HomeView: UIView {
-    
+       
     private lazy var stackView: UIStackView = {
-        let voidSpace = UIView()
-        let voidSpace2 = UIView()
-        let stack = UIStackView(arrangedSubviews: [])
+        let stack = UIStackView(arrangedSubviews: [date,tableView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.backgroundColor = .systemBackground
-        stack.alignment = .center
-        stack.distribution = .equalCentering
+        stack.alignment = .fill
+        stack.distribution = .fill
         stack.axis = .vertical
         stack.spacing = 20
         return stack
     }()
-    
-    private lazy var btn: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Entrar", for: .normal)
-        btn.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        btn.setTitleColor(.red, for: .normal)
-        btn.backgroundColor = .black
-        btn.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        btn.addTarget(self, action: #selector(aprint), for: .touchUpInside)
-        return btn
+
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
+    lazy var bt: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("AAAAAAAAAAAA", for: .normal)
+        
+        return btn
+    }()
+
+    private lazy var date: UILabel = {
+        let date = UILabel()
+        date.text = "23 de janeiro de 2026"
+        date.font = .systemFont(ofSize: 14)
+        date.textAlignment = .center
+        return date
     }()
     
     override init(frame: CGRect) {
@@ -61,17 +59,5 @@ class HomeView: UIView {
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
         ])
-    }
-
-}
-
-extension HomeView: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        return cell
     }
 }
