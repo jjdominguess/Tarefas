@@ -17,6 +17,10 @@ class ModalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupLayout()
+    }
+    
+    private func setupLayout() {
+        self.view = layout
     }
 }

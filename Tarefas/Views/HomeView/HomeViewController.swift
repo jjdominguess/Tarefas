@@ -31,17 +31,17 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         customNavbar()
-        setup()
+        setupLayout()
     }
     
-    func customNavbar() {
+    private func customNavbar() {
         let btn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didClickAddTask))
         btn.title = "+"
         navigationItem.title = "Tarefas diárias"
         navigationItem.rightBarButtonItem = btn
     }
     
-    func setup() {
+    private func setupLayout() {
         view.addSubview(homeView)
         
         homeView.tableView.delegate = self
@@ -53,11 +53,10 @@ class HomeViewController: UIViewController {
             homeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             homeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
         ])
     }
     
-    @objc func didClickAddTask() {
+    @objc private func didClickAddTask() {
         viewModel?.callModalView()
     }
 }
