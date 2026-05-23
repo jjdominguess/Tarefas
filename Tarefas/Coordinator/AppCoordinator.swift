@@ -36,9 +36,9 @@ final class AppCoordinator {
         let modalView = ModalViewController()
         modalView.modalPresentationStyle = .pageSheet
         if let sheet = modalView.sheetPresentationController {
-            sheet.detents = [.medium()]
+            sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
         }
         navigationController.present(modalView, animated: true)
     }
