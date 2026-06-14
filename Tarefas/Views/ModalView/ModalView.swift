@@ -10,6 +10,8 @@ import UIKit
 class ModalView: UIView {
     //TODO: -- Refatorar essa classe posteriormente para criar um modelo de que ao passar informações já devolve label, tipo de calendário, tipo de hora desejada. Pois houve muito código repetido em função de ter que criar botão para ativar o UIDatePicker, configurá-lo como false isHidden na closure, depois de ser feita a escolha da data/hora pegar o valor de depois passá-lo como isHidden true de novo.
     
+    //TODO: -- Adicionar botão de repetição semanal, mensal e anual
+    
     //MARK: -- Vars
     let dateNow = Date.now
     let dateNowFormatted = Date.now.formatted(date: .abbreviated, time: .omitted)
@@ -66,7 +68,7 @@ class ModalView: UIView {
         date.addTarget(self, action: #selector(chooseDateStartCalendar), for: .valueChanged)
         date.layer.masksToBounds = true
         date.layer.cornerRadius = 10
-        date.backgroundColor = .yellow
+        date.backgroundColor = .white
         //TODO: - Entender como implementar o dismiss do calendário quando clicar fora do mesmo
 //        date.addTarget(self, action: #selector(didClickOutsideOffCalendar), for: .touchUpOutside)
         
@@ -85,25 +87,39 @@ class ModalView: UIView {
         date.bringSubviewToFront(self)
         date.layer.masksToBounds = true
         date.layer.cornerRadius = 10
-        date.backgroundColor = .yellow
+        date.backgroundColor = .white
         date.addTarget(self, action: #selector(chooseDateEndCalendar), for: .valueChanged)
         
         return date
     }()
     
     private lazy var startHour: UIDatePicker = {
-        var hour = UIDatePicker()
-        hour.translatesAutoresizingMaskIntoConstraints = false
-        hour.datePickerMode = .time
-        hour.isHidden = true
-        hour.preferredDatePickerStyle = .wheels
-        //TODO: -- Corrigir comportamento do Picker pois ao girar as roletas e cair em qualquer horário, fecha o picker, melhor seria se houvesse um botão para quando o usuário desse ok pegasse ambos, hora e minutos corretos, e não tivesse que abrir duas vezes o picker para acertar o horário.
-        hour.addTarget(self, action: #selector(chooseHourOfTask), for: .valueChanged)
-        hour.backgroundColor = .yellow
-        hour.layer.masksToBounds = true
-        hour.layer.cornerRadius = 10
-        
-        return hour
+        let date = UIDatePicker()
+        date.translatesAutoresizingMaskIntoConstraints = false
+        date.datePickerMode = .time
+        date.preferredDatePickerStyle = .wheels
+        date.backgroundColor = .white
+        date.layer.masksToBounds = true
+        date.layer.cornerRadius = 10
+        date.addTarget(self, action: #selector(chooseHourOfTask), for: .valueChanged)
+        date.isHidden = true
+
+        return date
+    }()
+    
+    private lazy var confirmHourButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("OK", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.backgroundColor = .systemGreen
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 8
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        button.addTarget(self, action: #selector(confirmHourSelection), for: .touchUpInside)
+        button.isHidden = true
+        return button
     }()
     
     //MARK: -- Buttons
@@ -220,6 +236,7 @@ class ModalView: UIView {
         container.addSubview(buttonEndDate)
         container.addSubview(endDate)
         container.addSubview(startHour)
+        container.addSubview(confirmHourButton)
         container.addSubview(starHourLabel)
         container.addSubview(buttonHour)
         container.addSubview(addButton)
@@ -285,10 +302,14 @@ class ModalView: UIView {
     
     @objc private func openHourWheel() {
         startHour.isHidden = false
+        confirmHourButton.isHidden = false
         container.bringSubviewToFront(startHour)
+        container.bringSubviewToFront(confirmHourButton)
         NSLayoutConstraint.activate([
             startHour.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             startHour.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            confirmHourButton.topAnchor.constraint(equalTo: startHour.bottomAnchor, constant: 12),
+            confirmHourButton.centerXAnchor.constraint(equalTo: container.centerXAnchor)
         ])
     }
     
@@ -307,6 +328,10 @@ class ModalView: UIView {
     }
     
     @objc private func chooseHourOfTask() {
+        // Não faz nada até o usuário confirmar com o botão OK
+    }
+    
+    @objc private func confirmHourSelection() {
         let selectedHour = startHour.date
         let formatter = DateFormatter()
         formatter.locale = Locale.current
@@ -315,6 +340,7 @@ class ModalView: UIView {
         let formatterString = formatter.string(from: selectedHour)
         buttonHour.setTitle(formatterString, for: .normal)
         startHour.isHidden = true
+        confirmHourButton.isHidden = true
     }
     
     @objc private func didTapAddTask() {
@@ -348,3 +374,4 @@ class ModalView: UIView {
     }
     //TODO: implementar dismiss na tela quando clicar em adicionar
 }
+
