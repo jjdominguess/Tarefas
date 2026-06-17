@@ -32,14 +32,21 @@ final class AppCoordinator {
         navigationController.pushViewController(homeVC, animated: true)
     }
     
-    func openModalView() {
-        let modalView = ModalViewController()
+    func routeToModalView() {
+        let viewModel = ModalViewModel()
+        viewModel.coordinator = self
+        let modalView = ModalViewController(viewModel: viewModel)
         modalView.modalPresentationStyle = .pageSheet
         if let sheet = modalView.sheetPresentationController {
-            sheet.detents = [.large()]
+            sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = true
             sheet.prefersScrollingExpandsWhenScrolledToEdge = true
         }
         navigationController.present(modalView, animated: true)
     }
+    
+    func dismissModal() {
+        navigationController.presentedViewController?.dismiss(animated: true)
+    }
+    
 }

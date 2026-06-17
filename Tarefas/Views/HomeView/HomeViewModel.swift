@@ -12,6 +12,6 @@ class HomeViewModel {
     weak var coordinator: AppCoordinator? 
     
     func callModalView() {
-        coordinator?.openModalView()
+        coordinator?.routeToModalView()
     }
 }

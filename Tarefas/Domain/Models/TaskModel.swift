@@ -8,8 +8,8 @@
 import Foundation
 
 struct TaskModel {
-    var date: Date
     var title: String
+    var description: String
+    var date: Date
     var start: Date?
-    var end: Date?
 }

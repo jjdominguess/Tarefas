@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol HomeViewDelegate: AnyObject {
+    
+}
+
 class HomeViewController: UIViewController {
     
     var viewModel: HomeViewModel?
     var taskNumber: Int = 0
+    private let coordinator = AppCoordinator.self
     
     private lazy var homeView: HomeView = {
         let view = HomeView()
@@ -58,6 +63,10 @@ class HomeViewController: UIViewController {
     
     @objc private func didClickAddTask() {
         viewModel?.callModalView()
+    }
+    
+    @objc private func didFinishAddingTask() {
+//        viewModel?.dismissModalView()
     }
 }
 

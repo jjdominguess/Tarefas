@@ -7,7 +7,13 @@
 
 import UIKit
 
-class ModalViewController: UIViewController {
+protocol ModalVCDelegate: AnyObject {
+    func didTapAdd(title: String, description: String, date: String, hour: String)
+}
+
+class ModalViewController: UIViewController, ModalVCDelegate {
+    
+    var model: ModalViewModel?
     
     private lazy var layout: ModalView = {
         let view = ModalView()
@@ -15,12 +21,26 @@ class ModalViewController: UIViewController {
         return view
     }()
     
+    init(viewModel: ModalViewModel) {
+        self.model = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        layout.delegate = self
     }
     
     private func setupLayout() {
         self.view = layout
+    }
+    
+    func didTapAdd(title: String, description: String, date: String, hour: String) {
+        print("Did tap add")
+        model?.dismissModalView()
     }
 }
