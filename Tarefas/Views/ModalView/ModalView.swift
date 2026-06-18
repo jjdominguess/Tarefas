@@ -20,7 +20,7 @@ class ModalView: UIView {
     let dateNow = Date.now
     let dateNowFormatted = Date.now.formatted(date: .abbreviated, time: .omitted)
     let dateTomorrow = Date.now.addingTimeInterval(84_600)
-    let dateTomorrowFormatted = Date.now.addingTimeInterval(84_600).formatted(date: .abbreviated, time: .omitted)
+    let dateTomorrowFormatted = Date.now.addingTimeInterval(84_600).    formatted(date: .abbreviated, time: .omitted)
     let hourNow = Date.now.formatted(date: .omitted, time: .shortened)
     private var customBlueColor = UIColor(red: 1.00/255.00, green: 144.00/255.00, blue: 189.00/255.00, alpha: 1.00)
     
