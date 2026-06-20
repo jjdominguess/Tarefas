@@ -13,7 +13,7 @@ protocol ModalVCDelegate: AnyObject {
 
 class ModalViewController: UIViewController, ModalVCDelegate {
     
-    var model: ModalViewModel?
+    var viewModel: ModalViewModel?
     
     private lazy var layout: ModalView = {
         let view = ModalView()
@@ -22,7 +22,7 @@ class ModalViewController: UIViewController, ModalVCDelegate {
     }()
     
     init(viewModel: ModalViewModel) {
-        self.model = viewModel
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,7 +40,7 @@ class ModalViewController: UIViewController, ModalVCDelegate {
     }
     
     func didTapAdd(title: String, description: String, date: String, hour: String) {
-        print("Did tap add")
-        model?.dismissModalView()
+        viewModel?.recordInfoTask(title: title, description: description, date: date, hour: hour)
+        viewModel?.dismissModalView()
     }
 }

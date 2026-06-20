@@ -20,7 +20,7 @@ class ModalView: UIView {
     let dateNow = Date.now
     let dateNowFormatted = Date.now.formatted(date: .abbreviated, time: .omitted)
     let dateTomorrow = Date.now.addingTimeInterval(84_600)
-    let dateTomorrowFormatted = Date.now.addingTimeInterval(84_600).    formatted(date: .abbreviated, time: .omitted)
+    let dateTomorrowFormatted = Date.now.addingTimeInterval(84_600).formatted(date: .abbreviated, time: .omitted)
     let hourNow = Date.now.formatted(date: .omitted, time: .shortened)
     private var customBlueColor = UIColor(red: 1.00/255.00, green: 144.00/255.00, blue: 189.00/255.00, alpha: 1.00)
     
@@ -245,7 +245,7 @@ class ModalView: UIView {
             addButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
         ])
     }
-    
+    //MARK: -- Private Methods
     @objc private func openStartCalendar() {
         startDate.isHidden = false
         container.bringSubviewToFront(startDate)
@@ -270,6 +270,7 @@ class ModalView: UIView {
     
     @objc private func chooseDateStartCalendar() {
         let selectedDate = startDate.date
+        //TODO: retirar tratamento de conversão de data em string, isso é função da ViewModel
         let formattedDate = DateFormatter.localizedString(from: selectedDate, dateStyle: .medium, timeStyle: .none)
         dateSelected = formattedDate
         buttonStartDate.setTitle(formattedDate, for: .normal)
@@ -286,6 +287,7 @@ class ModalView: UIView {
         formatter.locale = Locale.current
         formatter.dateStyle = .none
         formatter.timeStyle = .short
+        //TODO: retirar tratamento de conversão de hora em string, isso é função da ViewModel
         let formatterString = formatter.string(from: selectedHour)
         hourSelected = formatterString
         buttonHour.setTitle(formatterString, for: .normal)
@@ -300,16 +302,6 @@ class ModalView: UIView {
     }
     
     @objc private func didSelectedDateStart() {
-        print("didClickDateStart")
         startDate.isHidden = true
-    }
-    
-    @objc private func didClickHourStart() {
-        print("didClickHourStart")
-    }
-    
-    @objc private func didClickOutsideOffCalendar() {
-        startDate.isHidden = true
-        print("AAA")
     }
 }
